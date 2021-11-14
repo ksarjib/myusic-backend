@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
-const config = require('./config/config');
 
 const app = express();
 
@@ -31,7 +30,7 @@ app.use(
         }
 
         return res.status(err.status || 500).json({
-            error: config.app.env === 'development' ? err : undefined,
+            error: process.env.JWT_SECRET === 'development' ? err : undefined,
             message: err.message
         });
     }

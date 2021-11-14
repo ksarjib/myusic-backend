@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const logger = require('../config/logger');
+const jwtutil = require('../utils/jwtUtils')
 const passwordUtil = require('../utils/passwordUtils')
 
 /**
@@ -74,7 +75,7 @@ module.exports.login = async (req, res) => {
         if (match) {
             res.send({
                 success: 1,
-                payload: user
+                payload: { access_token: jwtutil.generateAccessToken('ACCESS_TOKEN', user.email)}
             });
         } else {
             res.send({

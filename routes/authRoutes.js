@@ -12,6 +12,11 @@ const { add, fetchAll, findById, deleteUserById, updateUserById, login } = userC
 router.post('/register', add);
 
 /**
+ * User Login.
+ */
+router.post('/login', login);
+
+/**
  * Get all users.
  */
 router.get('/', fetchAll);
