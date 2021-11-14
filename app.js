@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 
 const bookRoutes = require('./routes/bookRoutes');
+const authRoutes = require('./routes/authRoutes');
 const config = require('./config/config');
 
 const app = express();
@@ -20,6 +21,8 @@ app.use(
 );
 // Book routes
 app.use('/book', bookRoutes);
+app.use('/auth', authRoutes);
+
 
 app.use(
     (err, req, res, next) => {

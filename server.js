@@ -1,6 +1,5 @@
 const app = require('./app');
 const logger = require('./config/logger');
-const config = require('./config/config');
 const mongoose = require('mongoose');
 
 const url = process.env.MONGO_URL;
@@ -33,14 +32,10 @@ if (url == null) {
 // Close the Mongoose connection, when receiving SIGINT
 process.on('SIGINT', () => {
     logger.info('Gracefully shutting down');
-    mongoConnection.close(err => {
-        if (err) {
-            logger.log({
-                level: 'error',
-                message: 'Error shutting closing mongo connection',
-                error: err
-            });
-        }
-        process.exit(0);
+    logger.log({
+        level: 'error',
+        message: 'Error shutting closing mongo connection',
+        error: err
     });
+    process.exit(0);
 });

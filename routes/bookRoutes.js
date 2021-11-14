@@ -4,21 +4,16 @@ const bookController = require('../controllers/book');
 
 const router = express.Router();
 
-const { add, fetchAll, get } = bookController;
+const { add, fetchAll } = bookController;
 /**
  * Add book
  * 
  */
-router.post('/add', add);
+router.post('/', add);
 
 /**
  * Get all book.
  */
-router.get('/all', fetchAll);
-
-/**
- * Search a book.
- */
-router.get('/search', get);
+router.get('/', fetchAll);
 
 module.exports = router;
