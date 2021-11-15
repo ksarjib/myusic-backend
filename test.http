@@ -1,0 +1,81 @@
+
+// add music
+POST http://localhost:3002/music/register
+content-type: application/json
+
+{
+   "title" : "No Guidance",
+    "date" : "05/13/2019",
+    "fileName" : "Cris Brown",
+    "description" : "Hip Hop",
+    "artist_id" : "2"
+}
+###
+
+PUT  http://localhost:3002/music/61919325b710fc705612b957
+content-type: application/json
+
+{
+   "title" : "Best friend",
+    "date" : "04/04/2021",
+    "fileName" : "doja cat",
+    "description" : "hip hop",
+    "artist_id" : "1"
+}
+
+###
+
+
+
+
+   //fetchAll music
+###
+GET http://localhost:3002/music/
+
+//get music by id
+###
+GET http://localhost:3002/music/61918f6a42402756e62dd178
+
+// delete music by id
+###
+DELETE http://localhost:3002/music/6191b811e0471c1066d4aa61
+
+// delete all music
+###
+DELETE http://localhost:3002/music/
+
+//finding all  rating
+###
+GET http://localhost:3002/rating/
+
+//Add rating
+###
+POST http://localhost:3002/rating/rate
+content-type: application/json
+
+//add artist
+###
+POST http://localhost:3002/artist/register
+content-type: application/json
+
+{
+   "name" : "ssss",
+   "email": "doja@gmail.com",
+    "dob" : "04/04/1993",
+    "songs": [{
+        "title": "No Guidance",
+        "date" : "07/03/2020",
+        "fileName" : "ss",
+        "description" : "written by Jack",
+        "category" : "Hip Hope"
+    }]
+}        
+        
+//search Artist by name
+###
+GET  http://localhost:3002/artist/search?name=doja cat
+
+
+//find all Artist
+###
+GET  http://localhost:3002/artist
