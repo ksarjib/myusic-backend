@@ -1,33 +1,16 @@
 const express = require('express');
-const Multer = require("multer");
 const musicController = require('../controllers/music');
 const router = express.Router();
 const { add,fetchAll,findById} = musicController;
-const fileUploadService = require('../service/minioService');
+const uploadFile = require('../middlewares/imageUpload');
+const validateJWT = require('../utils/jwtUtils')
 
 /**
  * Add a music
  * 
  */
 
- router.post('/', (req, res, next) => {
-
-     let upload = Multer({ storage: Multer.memoryStorage() }).single("music");
-     upload(req, res, async function(err) {
-        console.log(req);
-        const file = req.files.music;
-        const fileName = 'music-' + Date.now().toString();
-        console.log('FileName =================');
-        console.log(file);
-        console.log('Request body logged');
-        console.log(req.body);
-        let buffer = Buffer.from(file.data);
-
-        await fileUploadService.uploadFile(buffer, fileName);
-        req.filename = fileName;
-        next();
-     })
- }, add);
+ router.post('/', validateJWT.authenticateToken, uploadFile, add);
 
 // // /**
 // //  * User Login.
@@ -37,12 +20,12 @@ const fileUploadService = require('../service/minioService');
 /**
  * Get all musics.
  */
-router.get('/', fetchAll);
+router.get('/', validateJWT.authenticateToken, fetchAll);
 
 /**
  * Search a music by id.
  */
-router.get('/:id', findById);
+router.get('/:id', validateJWT.authenticateToken, findById);
 
 
 

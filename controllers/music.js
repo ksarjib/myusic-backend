@@ -1,7 +1,6 @@
 
 const Music = require('../models/Music');
 const logger = require('../config/logger');
-const fileUploadService = require('../service/minioService');
 
 /**
  * Add music by artist.
@@ -11,7 +10,9 @@ const fileUploadService = require('../service/minioService');
  */
 
 module.exports.add = async (req, res) => {
+    console.log('Inside music controller');
     const fileName = req.fileName;
+    console.log(fileName);
     const { title, date, description, artist_id } = req.body;
     console.log(req.body);
     try {
