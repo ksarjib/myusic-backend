@@ -1,27 +1,27 @@
-const express = require('express');
+// const express = require('express');
 
-const artistController = require('../controllers/artist');
+// const artistController = require('../controllers/artist');
 
-const router = express.Router();
+// const router = express.Router();
 
-const {add, fetchAll, findArtistByName} = artistController
+// const {add, fetchAll, findArtistByName} = artistController
 
-/**
- * Add an Artist
- * 
- */
-router.post('/', add);
+// /**
+//  * Add an Artist
+//  * 
+//  */
+// router.post('/', add);
 
-/**
- * Get all Artist.
- */
-router.get('/', fetchAll);
+// /**
+//  * Get all Artist.
+//  */
+// router.get('/', fetchAll);
 
-/**
- * Search a Artist by name.
- */
-router.get('/search', findArtistByName);
+// /**
+//  * Search a Artist by name.
+//  */
+// router.get('/search', findArtistByName);
 
 
 
-module.exports = router;
+// module.exports = router;

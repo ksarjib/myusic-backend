@@ -75,7 +75,7 @@ module.exports.login = async (req, res) => {
         if (match) {
             res.send({
                 success: 1,
-                payload: { access_token: jwtutil.generateAccessToken('ACCESS_TOKEN', user.email)}
+                payload: { access_token: jwtutil.generateAccessToken('ACCESS_TOKEN', user.email), role: user.category}
             });
         } else {
             res.send({

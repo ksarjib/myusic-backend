@@ -10,7 +10,7 @@ const { add,fetchAll,findById,updateMusicById,deleteMusicById,removeAll} = ratin
  * Add a Rating
  * 
  */
-router.post('/add', add);
+router.post('/add',  validateJWT.authenticateToken, add);
 
 // /**
 //  * User Login.
@@ -20,7 +20,7 @@ router.post('/add', add);
 /**
  * Get all Rating.
  */
-router.get('/', fetchAll);
+router.get('/', validateJWT.authenticateToken, fetchAll);
 
 // /**
 //  * Search a Rating by id.

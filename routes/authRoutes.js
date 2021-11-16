@@ -1,4 +1,5 @@
 const express = require('express');
+const validateJWT = require('../utils/jwtUtils');
 
 const userController = require('../controllers/auth');
 
@@ -19,21 +20,21 @@ router.post('/login', login);
 /**
  * Get all users.
  */
-router.get('/', fetchAll);
+router.get('/', validateJWT.authenticateToken, fetchAll);
 
 /**
  * Search a user by id.
  */
-router.get('/:id', findById);
+router.get('/:id', validateJWT.authenticateToken, findById);
 
 /**
  * Update a user by id.
  */
-router.put('/:id', updateUserById);
+router.put('/:id', validateJWT.authenticateToken, updateUserById);
 
 /**
  * Delete a user by id.
  */
-router.delete('/:id', deleteUserById);
+router.delete('/:id', validateJWT.authenticateToken, deleteUserById);
 
 module.exports = router;

@@ -1,29 +1,34 @@
 const Minio = require("minio");
 console.log(process.env.MONGO_URL);
-let minioClient = new Minio.Client({
-//     MINIO_ACCESS=Q3AM3UQ867SPQQA43P2F
-// MINIO_SECRET=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
-// MINIO_PORT=9000
-// MINIO_URL=play.minio.io
 
-    endPoint: 'play.minio.io',
 
-    port: 9000,
-
-    useSSL: true,
-
-    accessKey: 'Q3AM3UQ867SPQQA43P2F',
-
-    secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
-
-});
+function getMinioClient() {
+    return new Minio.Client({
+        
+            endPoint: process.env.MINIO_URL,
+        
+            port: 9000,
+        
+            useSSL: true,
+        
+            accessKey: process.env.MINIO_ACCESS,
+        
+            secretKey: process.env.MINIO_SECRET
+        
+        });
+}
 
 module.exports.uploadFile = async function (file, fileName) {
+    
+console.log(process.env.MINIO_SECRET);
+console.log(process.env.MINIO_ACCESS);
     console.log('Inside minio service');
     console.log(fileName);
     console.log('File');
     console.log(file);
-    await minioClient.putObject("myusic", fileName, file, function (error, etag) {
+    
+console.log(process.env.MONGO_URL);
+    await getMinioClient().putObject("myusic", fileName, file, function (error, etag) {
 
         if (error) {
 
