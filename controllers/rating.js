@@ -55,7 +55,7 @@ module.exports.fetchAll = async (req, res) => {
         });
         return res.json({
             success: 0,
-            message: 'Error fetching the music details'
+            message: 'Error fetching the Rating details'
         });
     }
 
