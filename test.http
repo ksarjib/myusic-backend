@@ -1,6 +1,6 @@
 
 // add music
-POST http://localhost:3002/music/register
+POST http://localhost:3000/music/register
 content-type: application/json
 
 {
@@ -46,7 +46,7 @@ DELETE http://localhost:3002/music/
 
 //finding all  rating
 ###
-GET http://localhost:3002/rating/
+GET http://localhost:3000/rating/
 
 //Add rating
 ###
@@ -55,7 +55,7 @@ content-type: application/json
 
 //add artist
 ###
-POST http://localhost:3002/artist/register
+POST http://localhost:3000/artist/register
 content-type: application/json
 
 {
@@ -79,3 +79,34 @@ GET  http://localhost:3002/artist/search?name=doja cat
 //find all Artist
 ###
 GET  http://localhost:3002/artist
+
+// add music
+POST http://localhost:3002/subscribe/register
+content-type: application/json
+
+{
+   "title" : "No Guidance",
+    "date" : "05/13/2019",
+    "fileName" : "Cris Brown",
+    "description" : "Hip Hop",
+    "artist_id" : "2"
+}
+###
+
+##
+POST http://localhost:3002/subscribe/
+content-type: application/json
+
+{
+   "name" : "ssss",
+   "email": "doja@gmail.com",
+    "dob" : "04/04/1993",
+    "songs": [{
+        "title": "No Guidance",
+        "date" : "07/03/2020",
+        "fileName" : "ss",
+        "description" : "written by Jack",
+        "category" : "Hip Hope"
+    }]
+}        
+        

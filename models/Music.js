@@ -5,7 +5,8 @@ const musicSchema = mongoose.Schema({
     date : Date,
     fileName : String,
     description : String,
-    artist_id : String
+    artist_id : String,
+    genre : String
     
 })
 module.exports = mongoose.model("Music", musicSchema);
