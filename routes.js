@@ -15,7 +15,7 @@ router.use('/auth', authRoutes);
 router.use('/music', musicRoutes);
 
 // Artise routes
-router.use('/artist', artistRoutes);
+// router.use('/artist', artistRoutes);
 
 // Rating routes
 router.use('/rating', ratingRoutes);

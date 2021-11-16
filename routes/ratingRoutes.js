@@ -1,6 +1,7 @@
 const express = require('express');
 
 const ratingController = require('../controllers/rating');
+const validateJWT = require('../utils/jwtUtils');
 
 const router = express.Router();
 

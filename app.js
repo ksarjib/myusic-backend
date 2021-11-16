@@ -5,7 +5,6 @@ const dotenv = require('dotenv');
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
 const musicRoutes = require('./routes/musicRoutes');
-const artistRoutes = require('./routes/artistRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
 const fileUpload = require('express-fileupload');
 
@@ -30,7 +29,6 @@ app.use(
 app.use('/book', bookRoutes);
 app.use('/auth', authRoutes);
 app.use('/music',musicRoutes );
-app.use('/artist', artistRoutes);
 app.use('/rating', ratingRoutes);
 
 
