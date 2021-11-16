@@ -10,7 +10,7 @@ const {add, fetchAll, findArtistByName} = artistController
  * Add an Artist
  * 
  */
-router.post('/register', add);
+router.post('/', add);
 
 /**
  * Get all Artist.

@@ -1,31 +1,52 @@
-// const express = require('express');
+const express = require('express');
+const Multer = require("multer");
+const musicController = require('../controllers/music');
+const router = express.Router();
+const { add,fetchAll,findById} = musicController;
+const fileUploadService = require('../service/minioService');
 
-// const musicController = require('../controllers/music');
+/**
+ * Add a music
+ * 
+ */
 
-// const router = express.Router();
+ router.post('/', (req, res, next) => {
 
-// const { add,fetchAll,findById,updateMusicById,deleteMusicById,removeAll} = musicController;
+     let upload = Multer({ storage: Multer.memoryStorage() }).single("music");
+     upload(req, res, async function(err) {
+        console.log(req);
+        const file = req.files.music;
+        const fileName = 'music-' + Date.now().toString();
+        console.log('FileName =================');
+        console.log(file);
+        console.log('Request body logged');
+        console.log(req.body);
+        let buffer = Buffer.from(file.data);
 
-// /**
-//  * Add a music
-//  * 
-//  */
-// router.post('/register', add);
+        await fileUploadService.uploadFile(buffer, fileName);
+        req.filename = fileName;
+        next();
+     })
+ }, add);
 
 // // /**
 // //  * User Login.
 // //  */
 // // router.post('/login', login);
 
-// /**
-//  * Get all musics.
-//  */
-// router.get('/', fetchAll);
+/**
+ * Get all musics.
+ */
+router.get('/', fetchAll);
 
-// /**
-//  * Search a music by id.
-//  */
-// router.get('/:id', findById);
+/**
+ * Search a music by id.
+ */
+router.get('/:id', findById);
+
+
+
+
 
 // /**
 //  * Update a music by id.
@@ -42,4 +63,4 @@
 
 // router.delete('/',removeAll);
 
-// module.exports = router;
+module.exports = router;
