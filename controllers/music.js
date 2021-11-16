@@ -23,6 +23,7 @@ module.exports.add = async (req, res) => {
             fileName, 
             description, 
             artist_id,
+            genre,
             status: 1
         });
 

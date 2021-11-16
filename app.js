@@ -6,6 +6,7 @@ const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
 const musicRoutes = require('./routes/musicRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
+const subscription = require('./routes/subscriptionRoutes')
 const fileUpload = require('express-fileupload');
 
 const app = express();
@@ -25,11 +26,12 @@ app.set('port', process.env.PORT || 3000);
 app.use(
     express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 })
 );
-// Book routes
+// routes
 app.use('/book', bookRoutes);
 app.use('/auth', authRoutes);
 app.use('/music',musicRoutes );
 app.use('/rating', ratingRoutes);
+app.use('/subscribe', subscription);
 
 
 

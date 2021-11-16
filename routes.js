@@ -4,6 +4,7 @@ const authRoutes = require('./routes/authRoutes');
 const musicRoutes = require('./routes/musicRoutes');
 const artistRoutes = require('./routes/artistRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
+const subscription = require('./routes/subscriptionRoutes');
 
 // Book routes
 router.use('/book', bookRoutes);
@@ -19,5 +20,6 @@ router.use('/music', musicRoutes);
 
 // Rating routes
 router.use('/rating', ratingRoutes);
+router.use('/subscribe', subscription);
 
 module.exports = router;
