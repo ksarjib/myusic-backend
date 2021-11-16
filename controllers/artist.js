@@ -1,5 +1,6 @@
-const Artist = require('../models/Artist')
-
+const Artist = require('../models/Artist');
+const User = require('../models/User');
+const logger = require('../config/logger');
 
 module.exports.add = async (req, res) => {
     const { name, email, dob, songs } = req.body;
@@ -14,22 +15,60 @@ module.exports.add = async (req, res) => {
 };
 
 
-module.exports.fetchAll = async (req, res) => {
+/**
+ * find artists
+ *
+ * @param req
+ * @param res
+ */
+ module.exports.fetchAll = async (req, res) => {
     try {
-        const artist = await Artist.find();
-        res.send({ success: 1, payload: artist });
+        const userId = req.params.id;
+
+        const user = await User.find({category: 1});
+        if (user) {
+            res.send({
+                success: 1,
+                payload: user
+            });
+        } else {
+            res.send({
+                success: 0,
+                payload: 'Artist not found'
+            });
+        }
+
     } catch (err) {
         logger.log({
             level: 'error',
             message: err.message
         });
         return res.json({
-            success: 0,
-            message: 'Error fetching the Artist details'
+            status: 500,
+            message: 'Error fetching the artists'
         });
     }
 
 };
+
+
+
+// module.exports.fetchAll = async (req, res) => {
+//     try {
+//         const artist = await Artist.find();
+//         res.send({ success: 1, payload: artist });
+//     } catch (err) {
+//         logger.log({
+//             level: 'error',
+//             message: err.message
+//         });
+//         return res.json({
+//             success: 0,
+//             message: 'Error fetching the Artist details'
+//         });
+//     }
+
+// };
 
 
 module.exports.buildArtistSeachQuery = (name) => {

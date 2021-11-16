@@ -1,96 +1,86 @@
 
-// const Music = require('../models/Music');
-// const logger = require('../config/logger');
-// const jwtutil = require('../utils/jwtUtils')
-// const passwordUtil = require('../utils/passwordUtils')
+const Music = require('../models/Music');
+const logger = require('../config/logger');
+const fileUploadService = require('../service/minioService');
 
-// /**
-//  * Add users.
-//  *
-//  * @param req
-//  * @param res
-//  */
+/**
+ * Add music by artist.
+ *
+ * @param req
+ * @param res
+ */
 
-// module.exports.add = async (req, res) => {
-//     console.log(req.body);
-//     const { title, date, fileName, description, artist_id } = req.body;
-//     try {
-//         let music = await Music.findOne({
-//             title
-//         });
-//         if (music) {
-//             return res.json({
-//                 status: 0,
-//                 payload: 'Music with associated title already exists'
-//             });
-//         }
+module.exports.add = async (req, res) => {
+    const fileName = req.fileName;
+    const { title, date, description, artist_id } = req.body;
+    console.log(req.body);
+    try {
 
-//         music = new Music({
-//             title, 
-//             date, 
-//             fileName, 
-//             description, 
-//             artist_id,
-//             status: 1
-//         });
-//        // user.password = await passwordUtil.encryptPassword(password);
+        let music = new Music({
+            title, 
+            date, 
+            fileName, 
+            description, 
+            artist_id,
+            status: 1
+        });
 
-//         await music.save();
+        await music.save();
 
-//         return res.json({
-//             status: 200,
-//             message: 'music Saved'
-//         });
-//     } catch (err) {
-//         logger.log({
-//             level: 'error',
-//             message: err.message
-//         });
-//         return res.json({
-//             status: 500,
-//             message: 'Error saving music'
-//         });
+        return res.json({
+            status: 200,
+            message: 'music Saved'
+        });
+    } catch (err) {
+        logger.log({
+            level: 'error',
+            message: err.message
+        });
+        return res.json({
+            status: 500,
+            message: 'Error saving music'
+        });
 
 
-//     };
-// }
+    };
+}
 
 
-// /**
-//  * find user by id.
-//  *
-//  * @param req
-//  * @param res
-//  */
-// module.exports.findById = async (req, res) => {
-//     try {
-//         const musicId = req.params.id;
+/**
+ * find user by id.
+ *
+ * @param req
+ * @param res
+ */
+module.exports.findById = async (req, res) => {
+    try {
+        const musicId = req.params.id;
 
-//         const music = await Music.findById(musicId);
-//         if (music) {
-//             res.send({
-//                 success: 1,
-//                 payload: music.toJSON()
-//             });
-//         } else {
-//             res.send({
-//                 success: 0,
-//                 payload: 'music not found'
-//             });
-//         }
+        const music = await Music.findById(musicId);
+        if (music) {
+            res.send({
+                success: 1,
+                payload: music.toJSON()
+            });
+        } else {
+            res.send({
+                success: 0,
+                payload: 'music not found'
+            });
+        }
 
-//     } catch (err) {
-//         logger.log({
-//             level: 'error',
-//             message: err.message
-//         });
-//         return res.json({
-//             status: 500,
-//             message: 'Error fetching the music details'
-//         });
-//     }
+    } catch (err) {
+        logger.log({
+            level: 'error',
+            message: err.message
+        });
+        return res.json({
+            status: 500,
+            message: 'Error fetching the music details'
+        });
+    }
 
-// };
+};
 
 // /**
 //  * Update user details by id.
@@ -142,28 +132,28 @@
 //     }
 // };
 
-// /**
-//  * Fetch all users.
-//  *
-//  * @param req
-//  * @param res
-//  */
-// module.exports.fetchAll = async (req, res) => {
-//     try {
-//         const musics = await Music.find();
-//         res.send({ success: 1, payload: musics });
-//     } catch (err) {
-//         logger.log({
-//             level: 'error',
-//             message: err.message
-//         });
-//         return res.json({
-//             success: 0,
-//             message: 'Error fetching the music details'
-//         });
-//     }
+/**
+ * Fetch all users.
+ *
+ * @param req
+ * @param res
+ */
+module.exports.fetchAll = async (req, res) => {
+    try {
+        const musics = await Music.find();
+        res.send({ success: 1, payload: musics });
+    } catch (err) {
+        logger.log({
+            level: 'error',
+            message: err.message
+        });
+        return res.json({
+            success: 0,
+            message: 'Error fetching the music details'
+        });
+    }
 
-// };
+};
 
 // module.exports.removeAll = async (req, res) => {
 //     try {

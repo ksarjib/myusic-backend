@@ -133,6 +133,7 @@ module.exports.findById = async (req, res) => {
 
 };
 
+
 /**
  * Update user details by id.
  *

@@ -1,20 +1,25 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
-const bodyParser = require('body-parser');
 
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
 const musicRoutes = require('./routes/musicRoutes');
 const artistRoutes = require('./routes/artistRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
+const fileUpload = require('express-fileupload');
 
 const app = express();
 
 dotenv.config();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// enable files upload 
+app.use(express.static(__dirname + '/public'));
+app.use(fileUpload({ createParentPath: true }));
 
 app.set('port', process.env.PORT || 3000);
 
@@ -24,9 +29,10 @@ app.use(
 // Book routes
 app.use('/book', bookRoutes);
 app.use('/auth', authRoutes);
-// app.use('/music',musicRoutes );
+app.use('/music',musicRoutes );
 app.use('/artist', artistRoutes);
 app.use('/rating', ratingRoutes);
+
 
 
 app.use(

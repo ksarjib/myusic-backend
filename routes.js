@@ -12,7 +12,7 @@ router.use('/book', bookRoutes);
 router.use('/auth', authRoutes);
 
 // Music routes
-// router.use('/music', musicRoutes);
+router.use('/music', musicRoutes);
 
 // Artise routes
 router.use('/artist', artistRoutes);
