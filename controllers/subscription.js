@@ -10,6 +10,7 @@ module.exports.subscribe = async (req, res) => {
 
     const { userId, artistId, artistStageName } = req.body;
     // const artist = Artist.schema.findOne(artist_id)
+    console.log(req.body);
     const subs = await Subscription.find({ subscribed_by: userId, artist_id: artistId });
     if (subs.length > 0) {
         console.log(subs);
@@ -18,7 +19,6 @@ module.exports.subscribe = async (req, res) => {
             message: 'Already subscribed'
         });
     }
-    const artist = User.schema.findOne(artist_id);
 
     try {
 
@@ -30,7 +30,7 @@ module.exports.subscribe = async (req, res) => {
         });
 
         await subscription.save();
-
+        console.log('Subscribed to an artist');
         return res.json({
             status: 200,
             message: 'subscribed'

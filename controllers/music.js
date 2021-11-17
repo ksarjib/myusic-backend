@@ -25,7 +25,7 @@ module.exports.add = async (req, res) => {
             description,
             artist_id,
             genre,
-            stageName 
+            stageName
         });
 
         music = await music.save();
@@ -100,13 +100,16 @@ module.exports.findAllSubscribedMusicForUser = async (req, res) => {
         const subscribedArtists = await Subscription.find({ subscribed_by: userId });
 
         const artistsIds = subscribedArtists.map(artist => {
-            return artist._id;
+            // console.log(artist);
+            return artist.artist_id
         });
 
-        const musics = Music.find({
+        console.log(artistsIds);
+
+        const musics = await Music.find({
             'artist_id': { $in: artistsIds }
         });
-
+        console.log(musics);
         if (musics) {
             res.send({
                 success: 1,
@@ -215,7 +218,7 @@ module.exports.fetchAll = async (req, res) => {
 module.exports.fetchAllForArtist = async (req, res) => {
     try {
         console.log('an artists music. artist_id ==' + req.params.id);
-        const musics = await Music.find({ artist_id: req.params.id });
+        const musics = await Music.find({ artist_id: req.params.id }).sort({ date: -1 });
         console.log(musics);
         res.send({ success: 1, payload: musics });
     } catch (err) {

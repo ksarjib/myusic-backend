@@ -44,8 +44,9 @@ module.exports.uploadFile = async function (file, fileName) {
 
 
 module.exports.download = function (request, response) {
-
-    minioClient.getObject("myusic", '', function (error, stream) {
+    const fileName = request.query.fileName;
+    console.log('Playing music -' + fileName);
+    getMinioClient().getObject("myusic", fileName, function (error, stream) {
 
         if (error) {
 
