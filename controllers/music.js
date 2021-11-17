@@ -215,7 +215,7 @@ module.exports.fetchAll = async (req, res) => {
 module.exports.fetchAllForArtist = async (req, res) => {
     try {
         console.log('an artists music. artist_id ==' + req.params.id);
-        const musics = await Music.find({ artist_id: req.params.id });
+        const musics = await Music.find({ artist_id: req.params.id }).sort({date :-1});
         console.log(musics);
         res.send({ success: 1, payload: musics });
     } catch (err) {
