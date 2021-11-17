@@ -5,7 +5,7 @@ const userController = require('../controllers/auth');
 
 const router = express.Router();
 
-const { add, fetchAll, findById, deleteUserById, updateUserById, login } = userController;
+const { add, fetchAll, fetchAllArtists, findById, deleteUserById, updateUserById, login } = userController;
 /**
  * Add a user
  * 
@@ -21,6 +21,12 @@ router.post('/login', login);
  * Get all users.
  */
 router.get('/', validateJWT.authenticateToken, fetchAll);
+
+
+/**
+ * Get all artists.
+ */
+router.get('/artists', validateJWT.authenticateToken, fetchAllArtists);
 
 /**
  * Search a user by id.

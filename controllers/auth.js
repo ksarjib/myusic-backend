@@ -22,15 +22,15 @@ module.exports.add = async (req, res) => {
                 payload: 'User with associated email already exists'
             });
         }
-
+        console.log(req.body);
         user = new User({
             fName,
             lName,
             email,
-            gender,
+            gender: parseInt(gender),
             username,
             password,
-            category,
+            category: parseInt(category),
             dob,
             status: 1
         });
@@ -39,8 +39,14 @@ module.exports.add = async (req, res) => {
         await user.save();
 
         return res.json({
-            status: 200,
-            message: 'User Saved'
+            success: 1,
+            payload: {
+                access_token: jwtutil.generateAccessToken('ACCESS_TOKEN', user.email),
+                role: user.category,
+                email: user.email,
+                _id: user._id
+            }
+
         });
     } catch (err) {
         logger.log({
@@ -48,8 +54,8 @@ module.exports.add = async (req, res) => {
             message: err.message
         });
         return res.json({
-            status: 500,
-            message: 'Error saving user'
+            success: 0,
+            payload: 'Error saving user'
         });
 
 
@@ -70,12 +76,19 @@ module.exports.login = async (req, res) => {
         console.log(req.body);
 
         const user = await User.findOne({ "email": email });
+        console.log(user);
         const match = await passwordUtil.comparePasswords(password, user.password);
 
         if (match) {
             res.send({
                 success: 1,
-                payload: { access_token: jwtutil.generateAccessToken('ACCESS_TOKEN', user.email), role: user.category}
+                payload: {
+                    access_token: jwtutil.generateAccessToken('ACCESS_TOKEN', user.email),
+                    role: user.category,
+                    username: user.username,
+                    email: user.email,
+                    _id: user._id
+                }
             });
         } else {
             res.send({
@@ -90,8 +103,8 @@ module.exports.login = async (req, res) => {
             message: err.message
         });
         return res.json({
-            status: 500,
-            message: 'Error logging in'
+            success: 0,
+            payload: 'Error logging in'
         });
     }
 
@@ -126,8 +139,43 @@ module.exports.findById = async (req, res) => {
             message: err.message
         });
         return res.json({
-            status: 500,
-            message: 'Error fetching the user details'
+            success: 0,
+            payload: 'Error fetching the user details'
+        });
+    }
+
+};
+
+
+/**
+ * fetch all artist.
+ *
+ * @param req
+ * @param res
+ */
+module.exports.fetchAllArtists = async (req, res) => {
+    try {
+        const users = await User.find({ category: 1 });
+        if (users.length > 0) {
+            res.send({
+                success: 1,
+                payload: users
+            });
+        } else {
+            res.send({
+                success: 0,
+                payload: 'User not found'
+            });
+        }
+
+    } catch (err) {
+        logger.log({
+            level: 'error',
+            message: err.message
+        });
+        return res.json({
+            success: 0,
+            payload: 'Error fetching the user details'
         });
     }
 
@@ -154,7 +202,7 @@ module.exports.updateUserById = async (req, res) => {
         });
         return res.json({
             success: 0,
-            message: 'Error updating the user details.'
+            payload: 'Error updating the user details.'
         });
     }
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
@@ -15,6 +16,7 @@ dotenv.config();
 
 
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // enable files upload 
@@ -29,7 +31,7 @@ app.use(
 // routes
 app.use('/book', bookRoutes);
 app.use('/auth', authRoutes);
-app.use('/music',musicRoutes );
+app.use('/music', musicRoutes);
 app.use('/rating', ratingRoutes);
 app.use('/subscribe', subscription);
 

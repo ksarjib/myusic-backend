@@ -2,7 +2,6 @@
 const bookRoutes = require('./routes/bookRoutes');
 const authRoutes = require('./routes/authRoutes');
 const musicRoutes = require('./routes/musicRoutes');
-const artistRoutes = require('./routes/artistRoutes');
 const ratingRoutes = require('./routes/ratingRoutes');
 const subscription = require('./routes/subscriptionRoutes');
 
