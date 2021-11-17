@@ -6,21 +6,27 @@ const Artist = require('../models/Artist');
 
 
 module.exports.subscribe = async (req, res) => {
-    console.log('Inside music controller');
+    console.log('Inside subscription controller');
 
-    const { id, artist_id} = req.params;
+    const { userId, artistId, artistStageName } = req.body;
     // const artist = Artist.schema.findOne(artist_id)
-    const user = User.schema.findOne(id);
-    console.log(user + "user *****************");
+    const subs = await Subscription.find({ subscribed_by: userId, artist_id: artistId });
+    if (subs.length > 0) {
+        console.log(subs);
+        return res.json({
+            status: 400,
+            message: 'Already subscribed'
+        });
+    }
+    const artist = User.schema.findOne(artist_id);
 
     try {
 
         let subscription = new Subscription({
-            subscribed_by: id,
-            artist_id: artist_id,
-            name : user.fname,
-          stage_name: user.username, 
-            
+            subscribed_by: userId,
+            artist_id: artistId,
+            stage_name: artistStageName,
+
         });
 
         await subscription.save();
@@ -38,17 +44,13 @@ module.exports.subscribe = async (req, res) => {
             status: 500,
             message: 'Error Saving Subscription'
         });
-
-
     };
 }
 
-module.exports.unsubscribe = async(req, res)=>{
-    // const {id,artist_id} = req.params;
+module.exports.unsubscribe = async (req, res) => {
+    const { userId, artistId } = req.body;
     try {
-      await  Subscription.remove(id)
-       
-
+        await Subscription.remove({ subscribed_by: userId, artist_id: artistId })
         return res.json({
             status: 200,
             message: 'unSubscribed'
@@ -60,7 +62,7 @@ module.exports.unsubscribe = async(req, res)=>{
         });
         return res.json({
             status: 500,
-            message: 'Error Saving Subscription'
+            message: 'Error while unsubscribing'
         });
 
 

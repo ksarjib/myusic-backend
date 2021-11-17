@@ -1,6 +1,7 @@
 
 const Music = require('../models/Music');
 const logger = require('../config/logger');
+const Subscription = require('../models/Subscription');
 
 /**
  * Add music by artist.
@@ -12,28 +13,29 @@ const logger = require('../config/logger');
 module.exports.add = async (req, res) => {
     console.log('Inside music controller');
     const fileName = req.fileName;
-    console.log(fileName);
-    const { title, date, description, artist_id } = req.body;
-    console.log(req.body);
+    const { title, description, artist_id, genre, stageName } = req.body;
+    console.log({ title, description, artist_id, stageName, genre })
+    // console.log(req.body);
     try {
 
         let music = new Music({
-            title, 
-            date, 
-            fileName, 
-            description, 
+            title,
+            date: new Date(),
+            fileName,
+            description,
             artist_id,
             genre,
-            status: 1
+            stageName 
         });
 
-        await music.save();
+        music = await music.save();
 
         return res.json({
             status: 200,
-            message: 'music Saved'
+            message: music
         });
     } catch (err) {
+        console.log('I am inside catch in music controller');
         logger.log({
             level: 'error',
             message: err.message
@@ -68,6 +70,52 @@ module.exports.findById = async (req, res) => {
             res.send({
                 success: 0,
                 payload: 'music not found'
+            });
+        }
+
+    } catch (err) {
+        logger.log({
+            level: 'error',
+            message: err.message
+        });
+        return res.json({
+            status: 500,
+            message: 'Error fetching the music details'
+        });
+    }
+
+};
+
+
+/**
+ * find user by id.
+ *
+ * @param req
+ * @param res
+ */
+module.exports.findAllSubscribedMusicForUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const subscribedArtists = await Subscription.find({ subscribed_by: userId });
+
+        const artistsIds = subscribedArtists.map(artist => {
+            return artist._id;
+        });
+
+        const musics = Music.find({
+            'artist_id': { $in: artistsIds }
+        });
+
+        if (musics) {
+            res.send({
+                success: 1,
+                payload: musics
+            });
+        } else {
+            res.send({
+                success: 0,
+                payload: 'No musics to show yet. May be you have not subscribed to any musician.'
             });
         }
 
@@ -157,22 +205,30 @@ module.exports.fetchAll = async (req, res) => {
 
 };
 
-// module.exports.removeAll = async (req, res) => {
-//     try {
-//         await Music.deleteMany();
-// const response = {"deleted" : "delete success"};
-//         res.send({ success: 1, payload: response });
-//     } catch (err) {
-//         logger.log({
-//             level: 'error',
-//             message: err.message
-//         });
-//         return res.json({
-//             success: 0,
-//             message: 'Error fetching the music details'
-//         });
-//     }
 
-// };
+/**
+ * Fetch all users.
+ *
+ * @param req
+ * @param res
+ */
+module.exports.fetchAllForArtist = async (req, res) => {
+    try {
+        console.log('an artists music. artist_id ==' + req.params.id);
+        const musics = await Music.find({ artist_id: req.params.id });
+        console.log(musics);
+        res.send({ success: 1, payload: musics });
+    } catch (err) {
+        logger.log({
+            level: 'error',
+            message: err.message
+        });
+        return res.json({
+            success: 0,
+            message: 'Error fetching the music details'
+        });
+    }
+
+};
 
 
